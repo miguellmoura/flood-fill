@@ -71,38 +71,7 @@ public class ImageProcessor {
         String[] initialPixel = initialPixelString.split(",");
         return new int[] { Integer.parseInt(initialPixel[0].trim()), Integer.parseInt(initialPixel[1].trim()) };
     }
-
-    public static void processImageStack(BufferedImage image, int[] pixels) throws InterruptedException {
-        Node initialPixel = new Node(pixels[0], pixels[1], null);
-
-        Stack pixelsStack = new Stack();
-        pixelsStack.push(initialPixel.x, initialPixel.y);
-
-        while(!pixelsStack.isEmpty()) {
-            Node removedNode = pixelsStack.pop();
-
-            if (removedNode.x >= image.getWidth() || removedNode.x <= 0 || removedNode.y >= image.getHeight() || removedNode.y <= 0) {
-                continue;
-            } else {
-                int pixel = image.getRGB(removedNode.x, removedNode.y);
-                Color color = new Color(pixel, true);
-
-                if (color.getRed() == 255 && color.getGreen() == 255 && color.getBlue() == 255) {
-                    image.setRGB(removedNode.x, removedNode.y, Color.RED.getRGB());
-
-                    updateImage(image);
-
-                    Thread.sleep(1);
-
-                    pixelsStack.push(removedNode.x, removedNode.y - 1);
-                    pixelsStack.push(removedNode.x - 1, removedNode.y);
-                    pixelsStack.push(removedNode.x, removedNode.y + 1);
-                    pixelsStack.push(removedNode.x + 1, removedNode.y);
-                }
-            }
-
-        }
-    }
+    
 
     public static void processImageQueue(BufferedImage image, int[] pixels) throws InterruptedException {
         Node initialPixel = new Node(pixels[0], pixels[1], null);
